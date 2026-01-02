@@ -107,4 +107,39 @@ SMODS.Joker {
         end
     end
 }
+
+SMODS.Joker{
+    key = "superrogue",
+
+    blueprint_compat = false,
+    rarity = 3,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 2, y = 0 },
+
+    config = { extra = { copied = nil } },
+    calculate = function(self, card, context)
+        if context.setting_blind then
+            local pool = {}
+            for k, v in pairs(SMODS.Jokers) do
+                if type(k) == "string" and k:sub(1, 6) == "j_bgb_" then
+                    table.insert(pool, v)
+                end
+            end
+            if #pool > 0 then
+                local joker = pseudorandom_element(pool, pseudoseed("bgb_mimic"))
+                card.ability.extra.copied = joker
+            end
+        end
+
+        if card.ability.extra.copied
+        and card.ability.extra.copied.calculate
+        and not context.blueprint then
+            return card.ability.extra.copied.calculate(
+                card.ability.extra.copied,
+                card,
+                context
+            )
+        end
+    end
 }

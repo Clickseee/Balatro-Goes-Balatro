@@ -33,6 +33,17 @@ return {
                     "{C:inactive}(Must have room)",
                 }
             },
+            j_bgb_superrogue = {
+                name = {
+                    "Super Rogue",
+                    "{s:0.5}By: theAstra"
+                },
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "copies the effect of a",
+                    "random {C:bgb_rainbow_gradient}B.G.B.{} {C:attention}Joker"
+                }
+            },
         },
     }
 }
