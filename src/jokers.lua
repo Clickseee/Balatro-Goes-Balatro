@@ -8,7 +8,7 @@ SMODS.Joker {
     pos = { x = 1, y = 0 },
 
     config = { extra = { screenshake_mod = 10 } },
-    
+
     loc_vars = function(self, info_queue, card)
         return {
             vars = { card.ability.extra.screenshake_mod }
@@ -76,6 +76,34 @@ SMODS.Joker {
             local bonus = math.floor(count / 3)
             card.ability.extra.bonus = bonus
             G.hand.size = G.hand.size + bonus
+        end
+    end
+}
+
+SMODS.Joker {
+    key = "imm",
+
+    blueprint_compat = true,
+    rarity = 2,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 1, y = 0 },
+
+    calculate = function(self, card, context)
+        if context.setting_blind then
+            local pool = {}
+            for k, v in pairs(SMODS.Jokers) do
+                if type(k) == "string" and k:sub(1, 6) == "j_bgb_" then
+                    table.insert(pool, k)
+                end
+            end
+            if #pool > 0 and #G.jokers.cards < G.jokers.config.card_limit then
+                local key = pseudorandom_element(pool, pseudoseed("bgb_joker"))
+                SMODS.add_card{
+                    key = key,
+                    area = G.jokers
+                }
+            end
         end
     end
 }

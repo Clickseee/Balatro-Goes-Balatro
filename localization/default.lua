@@ -22,6 +22,17 @@ return {
                     "every {C:attention}#2#{} owned Jokers"
                 }
             },
+            j_bgb_imm = {
+                name = {
+                    "I.M.M. {s:0.4}(In-game Mod Manager)",
+                    "{s:0.5}By: Frostice482"
+                },
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "create a random {C:bgb_rainbow_gradient}B.G.B.{C:attention} Joker",
+                    "{C:inactive}(Must have room)",
+                }
+            },
         },
     }
 }
