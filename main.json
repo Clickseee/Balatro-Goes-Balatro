@@ -1,8 +1,9 @@
 {
 	"id": "balatrogoesbalatro",
 	"name": "Balatro: Goes Balatro",
-	"display_name": "Balatro: Goes Balatro",
-	"author": ["Nxkoo"],
+    "no_marquee": true,
+	"display_name": "Balatro Goes Balatro",
+	"author": ["Nxkoo", "Ruby", "notmario"],
 	"description": "A Balatro Mod based off Balatro Mods",
 	"prefix": "bgb",
 	"main_file": "main.lua",

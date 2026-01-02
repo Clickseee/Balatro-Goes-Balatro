@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = """if shake_amt < 0.05 then shake_amt = 0 end"""
+position = "after"
+payload = """
+for _, card in pairs(SMODS.find_card("j_bgb_lust")) do
+    shake_amt = shake_amt * (card.ability.extra.screenshake_mod or 10)
+end
+"""
+overwrite = true
+match_indent = true
