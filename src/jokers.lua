@@ -43,3 +43,40 @@ SMODS.Joker {
         end
     end,
 }
+
+SMODS.Joker {
+    key = "extracredit",
+
+    blueprint_compat = true,
+    rarity = 2,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 1, y = 0 },
+
+    config = { extra = { hsize = 1, jkrreq = 3, bonus = 0 } },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = { card.ability.extra.hsize, card.ability.extra.jkrreq, card.ability.extra.bonus }
+        }
+    end,
+    add_to_deck = function(self, card)
+        local count = #G.jokers.cards
+        local bonus = math.floor(count / 3)
+        card.ability.extra.bonus = bonus
+        G.hand.size = G.hand.size + bonus
+    end,
+    remove_from_deck = function(self, card)
+        G.hand.size = G.hand.size - (card.ability.extra.bonus or 0)
+        card.ability.extra.bonus = 0
+    end,
+    calculate = function(self, card, context)
+        if context.joker_added or context.joker_removed then
+            G.hand.size = G.hand.size - (card.ability.extra.bonus or 0)
+            local count = #G.jokers.cards
+            local bonus = math.floor(count / 3)
+            card.ability.extra.bonus = bonus
+            G.hand.size = G.hand.size + bonus
+        end
+    end
+}
+}
