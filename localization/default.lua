@@ -81,6 +81,17 @@ return {
                     "{C:inactive}(Currently {C:mult}+#2#{}{C:inactive} Mult)"
                 }
             },
+            j_bgb_handy = {
+                name = {
+                    "Handy",
+                    "{s:0.5}By: SleepyG11"
+                },
+                text = {
+                    "For every {C:attention}#4#{} Clicks,",
+                    "gain {C:blue}+#2#{} Hand",
+                    "{C:inactive,s:0.8}(Resets at end of round)",
+                    "{C:inactive}({C:attention}#1#{}{C:inactive} Clicks)"
+                }
             },
             j_bgb_malverk = {
                 name = {

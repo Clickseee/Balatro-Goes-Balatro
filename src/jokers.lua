@@ -88,6 +88,55 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+    key = "handy",
+
+    blueprint_compat = false,
+    rarity = 2,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 1, y = 0 },
+
+    config = { extra = { clicks = 0, hands = 1, applied = 0, clickreq = 10 } },
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = { card.ability.extra.clicks, card.ability.extra.hands, card.ability.extra.bonus, card.ability.extra.clickreq }
+        }
+    end,
+
+    calculate = function(self, card, context)
+        if context.bgb_press and G.GAME.blind.in_blind then
+            local gain = card.ability.extra.hands - card.ability.extra.applied
+            if gain > 0 then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        ease_hands_played(gain)
+                        SMODS.calculate_effect(
+                            {
+                                message = localize {
+                                    type = "variable",
+                                    key = "a_hands",
+                                    vars = { gain }
+                                }
+                            },
+                            context.blueprint_card or card
+                        )
+                        return true
+                    end
+                }))
+                card.ability.extra.applied = card.ability.extra.hands
+                return nil, true
+            end
+        end
+
+        if context.end_of_round then
+            card.ability.extra.clicks = 0
+            card.ability.extra.bonus = 0
+            card.ability.extra.applied = 0
+        end
+    end
+}
+
+SMODS.Joker {
     key = "malverk",
 
     blueprint_compat = true,
@@ -203,12 +252,12 @@ SMODS.Joker {
                     end
                 end
             end
-            if #pool > 0 and #G.jokers.cards < G.jokers.config.card_limit then
-                local key = pseudorandom_element(pool, pseudoseed("bgb_joker"))
-                SMODS.add_card{
-                    key = key,
-                    area = G.jokers
-                }
+            local key = pseudorandom_element(jokers, 'seed')
+            SMODS.add_card({ key = key })
+        end
+    end
+}
+
 SMODS.Joker {
     key = "jokerdisplay",
 
