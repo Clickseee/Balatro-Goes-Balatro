@@ -69,6 +69,18 @@ return {
                     "{C:inactive}({C:green}+1{C:inactive} chance after beating a {C:attention}Boss Blind{C:inactive})"
                 }
             },
+            j_bgb_jokerdisplay = {
+                name = {
+                    "JokerDisplay",
+                    "{s:0.5}By: N'"
+                },
+                text = {
+                    "This {C:attention}Joker{} gives",
+                    "{C:mult}+#1#{} Mult for each",
+                    "alphabets in every owned {C:attention}Jokers{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{}{C:inactive} Mult)"
+                }
+            },
             },
             j_bgb_malverk = {
                 name = {

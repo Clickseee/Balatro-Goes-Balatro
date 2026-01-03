@@ -209,12 +209,64 @@ SMODS.Joker {
                     key = key,
                     area = G.jokers
                 }
+SMODS.Joker {
+    key = "jokerdisplay",
+
+    blueprint_compat = true,
+    rarity = 2,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 1, y = 0 },
+
+    config = {
+        extra = {
+            mult_per_letter = 1,
+            current_mult = 0
+        }
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra.mult_per_letter,
+                card.ability.extra.current_mult
+            }
+        }
+    end,
+
+    update = function(self, card, dt)
+        if not G.jokers then return end
+
+        local total_letters = 0
+
+        for _, j in ipairs(G.jokers.cards) do
+            if j ~= card and j.config and j.config.center and j.config.center.loc_txt then
+                local text = j.config.center.loc_txt.text
+                if type(text) == "table" then
+                    text = table.concat(text, " ")
+                end
+                if type(text) == "string" then
+                    local _, count = string.gsub(text, "[A-Za-z]", "")
+                    total_letters = total_letters + count
+                end
             end
+        end
+
+        card.ability.extra.current_mult = total_letters * card.ability.extra.mult_per_letter
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult = card.ability.extra.current_mult,
+                card = card,
+                colour = G.C.RED
+            }
         end
     end
 }
 
-SMODS.Joker{
+SMODS.Joker {
     key = "superrogue",
 
     blueprint_compat = false,
@@ -233,14 +285,14 @@ SMODS.Joker{
                 end
             end
             if #pool > 0 then
-                local joker = pseudorandom_element(pool, pseudoseed("bgb_mimic"))
+                local joker = pseudorandom_element(pool, pseudoseed("fuhh"))
                 card.ability.extra.copied = joker
             end
         end
 
         if card.ability.extra.copied
-        and card.ability.extra.copied.calculate
-        and not context.blueprint then
+            and card.ability.extra.copied.calculate
+            and not context.blueprint then
             return card.ability.extra.copied.calculate(
                 card.ability.extra.copied,
                 card,
@@ -248,7 +300,9 @@ SMODS.Joker{
             )
         end
     end
-}SMODS.Joker {
+}
+
+SMODS.Joker {
     key = "talisman",
 
     blueprint_compat = false,
