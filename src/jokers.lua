@@ -185,4 +185,50 @@ SMODS.Joker{
             )
         end
     end
+}SMODS.Joker {
+    key = "talisman",
+
+    blueprint_compat = false,
+    rarity = 3,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 2, y = 0 },
+
+    config = { extra = { talismanmult = 1.75, talismanrep = 1, chance = 0, last_ante = 0 } },
+    loc_vars = function(self, info_queue, card)
+        local numerator, denominator = SMODS.get_probability_vars(card, card.ability.extra.chance, 10, 'bryh')
+        return { vars = { numerator, denominator, card.ability.extra.talismanmult, card.ability.extra.talismanrep } }
+    end,
+    calculate = function(self, card, context)
+        if context.setting_blind and G.GAME.blind.boss then
+            card.ability.extra.chance = math.min(10, card.ability.extra.chance + 1)
+        end
+
+        if context.joker_main then
+            if SMODS.pseudorandom_probability(card, 'bruh', card.ability.extra.chance, 10) then
+                error("attempt to compar- did y'all see that?")
+            end
+        end
+
+        if context.cardarea == G.play and context.individual and not context.blueprint then
+            return {
+                xmult = card.ability.extra.talismanmult
+            }
+        end
+
+        if context.cardarea == G.play and context.repetition and not context.blueprint then
+            return {
+                repetitions = 1
+            }
+        end
+    end,
+
+    update = function(self, card, dt)
+        if G.GAME and G.GAME.round_resets then
+            if card.ability.extra.last_ante ~= G.GAME.round_resets.ante then
+                card.ability.extra.last_ante = G.GAME.round_resets.ante
+                card.ability.extra.chance = math.min(10, card.ability.extra.chance + 1)
+            end
+        end
+    end
 }

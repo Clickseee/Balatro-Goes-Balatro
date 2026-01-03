@@ -55,6 +55,20 @@ return {
                     "to the right"
                 }
             },
+            j_bgb_talisman = {
+                name = {
+                    "Talisman",
+                    "{s:0.5}By: MathIsFun0"
+                },
+                text = {
+                    "Each {C:attention}played{} cards",
+                    "now gives {X:mult,C:white}X#3#{} Mult",
+                    "and retriggered {C:attention}once{}",
+                    "{C:green}#1# in #2#{} chance to",
+                    "crash the game",
+                    "{C:inactive}({C:green}+1{C:inactive} chance after beating a {C:attention}Boss Blind{C:inactive})"
+                }
+            },
         },
     }
 }
