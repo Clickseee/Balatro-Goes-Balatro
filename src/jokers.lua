@@ -1,4 +1,47 @@
 SMODS.Joker {
+    key = "jellymod",
+    blueprint_compat = false,
+    rarity = 1,
+    cost = 3,
+    atlas = "placeholders",
+    pos = { x = 0, y = 0 },
+
+    update = function(self, card, dt)
+        if not G.jokers then return end
+
+        for i = 1, #G.jokers.cards do
+            local j = G.jokers.cards[i]
+            if j.ability.right_debuff then
+                j.debuff = false
+                j.ability.right_debuff = false
+            end
+        end
+
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then
+                local target = G.jokers.cards[i + 1]
+                if target then
+                    target.debuff = true
+                    target.ability.right_debuff = true
+                end
+                break
+            end
+        end
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        if not G.jokers then return end
+        for i = 1, #G.jokers.cards do
+            local j = G.jokers.cards[i]
+            if j.ability.right_debuff then
+                j.debuff = false
+                j.ability.right_debuff = false
+            end
+        end
+    end
+}
+
+SMODS.Joker {
     key = "lust",
 
     blueprint_compat = true,

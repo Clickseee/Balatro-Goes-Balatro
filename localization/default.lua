@@ -24,7 +24,8 @@ return {
             },
             j_bgb_imm = {
                 name = {
-                    "I.M.M. {s:0.4}(In-game Mod Manager)",
+                    "I.M.M.",
+                    "{s:0.4}(In-game Mod Manager)",
                     "{s:0.5}By: Frostice482"
                 },
                 text = {
@@ -42,6 +43,16 @@ return {
                     "When {C:attention}Blind{} is selected,",
                     "copies the effect of a",
                     "random {C:bgb_rainbow_gradient}B.G.B.{} {C:attention}Joker"
+                }
+            },
+            j_bgb_jellymod = {
+                name = {
+                    "JellyMod",
+                    "{s:0.5}By: jamesthejellyfish"
+                },
+                text = {
+                    "Disables {C:attention}Joker",
+                    "to the right"
                 }
             },
         },

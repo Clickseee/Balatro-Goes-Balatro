@@ -1,4 +1,5 @@
 Balala = SMODS.current_mod
+SMODS.load_file("libs/hooks.lua")()
 SMODS.load_file("src/atlases.lua")()
 SMODS.load_file("src/jokers.lua")()
 Balala.rainbow_gradient = SMODS.Gradient {
