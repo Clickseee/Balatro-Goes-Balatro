@@ -88,6 +88,67 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+    key = "malverk",
+
+    blueprint_compat = true,
+    rarity = 2,
+    cost = 6,
+    atlas = "placeholders",
+    pos = { x = 1, y = 0 },
+
+    config = {
+        extra = {
+            per_atlas = 1.25,
+            unique_atlas = 0,
+            current_xmult = 1
+        }
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {
+                card.ability.extra.per_atlas,
+                card.ability.extra.unique_atlas,
+                card.ability.extra.current_xmult
+            }
+        }
+    end,
+
+    update = function(self, card, dt)
+        if not G.jokers then return end
+
+        local seen = {}
+        local count = 0
+
+        for _, j in ipairs(G.jokers.cards) do
+            if j.config and j.config.center and j.config.center.atlas then
+                local atlas = j.config.center.atlas
+                if not seen[atlas] then
+                    seen[atlas] = true
+                    count = count + 1
+                end
+            end
+        end
+
+        card.ability.extra.unique_atlas = count
+        card.ability.extra.current_xmult = math.pow(
+            card.ability.extra.per_atlas,
+            count
+        )
+    end,
+
+    calculate = function(self, card, context)
+        if context.joker_main and card.ability.extra.unique_atlas > 0 then
+            return {
+                x_mult = card.ability.extra.current_xmult,
+                card = card,
+                colour = G.C.ORANGE
+            }
+        end
+    end
+}
+
+SMODS.Joker {
     key = "extracredit",
 
     blueprint_compat = true,
@@ -134,10 +195,12 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
         if context.setting_blind then
-            local pool = {}
-            for k, v in pairs(SMODS.Jokers) do
-                if type(k) == "string" and k:sub(1, 6) == "j_bgb_" then
-                    table.insert(pool, k)
+            local jokers = {}
+            for k, v in pairs(get_current_pool('Joker')) do
+                if G.P_CENTERS[v] then
+                    if G.P_CENTERS[v].set == 'Joker' and G.P_CENTERS[v].original_mod and G.P_CENTERS[v].original_mod.id == 'balatrogoesbalatro' then
+                        table.insert(jokers, G.P_CENTERS[v].key)
+                    end
                 end
             end
             if #pool > 0 and #G.jokers.cards < G.jokers.config.card_limit then

@@ -69,6 +69,19 @@ return {
                     "{C:inactive}({C:green}+1{C:inactive} chance after beating a {C:attention}Boss Blind{C:inactive})"
                 }
             },
+            },
+            j_bgb_malverk = {
+                name = {
+                    "Malverk",
+                    "{s:0.5}By: Eremel"
+                },
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult per",
+                    "unique atlases of {C:attention}Jokers{}",
+                    "owned in this run",
+                    "{C:inactive}(Currently {X:mult,C:white}X#3#{}{C:inactive} Mult)"
+                }
+            },
         },
     }
 }
